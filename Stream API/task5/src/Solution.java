@@ -28,7 +28,7 @@ public class Solution {
 
     private static Long allReadingTasks(List<List<Task>> tasks) {
         return tasks.stream()
-                .flatMap(Collection::stream) //эту строку подсакзал чатГПТ
+                .flatMap(Collection::stream) //
                 .filter(task -> task.getTags().contains("books"))
                 .count();
 
