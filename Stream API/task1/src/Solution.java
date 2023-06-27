@@ -28,7 +28,7 @@ public class Solution {
                 .filter(task->task.getType()==TaskType.READING)
                 .sorted((x,y)->
                         x.getCreatedOn().compareTo(y.getCreatedOn()))
-                .map(task -> task.getTitle())   //.map(Task::toString) было так не мог понять почему выводит не формат, не посмотрел в методы...
+                .map(task -> task.getTitle())   //....
                 .collect(Collectors.toList());
         return readingTasks;
     }
