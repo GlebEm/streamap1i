@@ -27,7 +27,10 @@ public class Solution {
     }
 
     private static Long allReadingTasks(List<List<Task>> tasks) {
-        return null;
-        // Ваш код здесь
+        return tasks.stream()
+                .flatMap(Collection::stream) //эту строку подсакзал чатГПТ
+                .filter(task -> task.getTags().contains("books"))
+                .count();
+
     }
 }

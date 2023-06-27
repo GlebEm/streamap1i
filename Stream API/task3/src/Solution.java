@@ -2,6 +2,10 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.lang.String.valueOf;
+import static java.util.stream.Collectors.toList;
 
 public class Solution {
 
@@ -23,7 +27,15 @@ public class Solution {
     }
 
     private static List<String> allReadingTasks(List<Task> tasks) {
-        return null;
-        // Ваш код здесь
+        return
+        tasks.stream()
+                .flatMap(task -> task.getTags()
+                        .stream()).distinct().collect(toList());
+//                .map(task -> valueOf(task.getTags()))
+//               // .filter(task->!task.equals(task))
+//                .sorted()
+               // .collect(Collectors.toList());
+
+
     }
 }

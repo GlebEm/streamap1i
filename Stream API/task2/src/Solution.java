@@ -1,7 +1,9 @@
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Solution {
 
@@ -18,12 +20,17 @@ public class Solution {
         Task task4 = new Task(4, "Write a blog on Java 8 Streams", TaskType.WRITING, LocalDate.of(2015, Month.JULY, 4)).addTag("blogging").addTag("writing").addTag("streams");
         Task task5 = new Task(5, "Read Domain Driven Design book", TaskType.READING, LocalDate.of(2015, Month.JULY, 5)).addTag("ddd").addTag("books").addTag("reading");
         List<Task> tasks = Arrays.asList(task1, task2, task3, task4, task5, task5, task5, task3);
+        //System.out.println(task4.getId());
 
         allReadingTasks(tasks).forEach(System.out::println);
     }
 
     private static List<Task> allReadingTasks(List<Task> tasks) {
-        return null;
-        // Ваш код здесь
+        return tasks.stream()
+                        .filter(task -> task.getType()==TaskType.READING &&
+                                (task.getId()<5||((task.getCreatedOn().isBefore(LocalDate.of(2015,Month.JULY,5))))))
+                .distinct().collect(Collectors.toList());
+
+        // Можно убрать сравнение по ID или по дате
     }
 }

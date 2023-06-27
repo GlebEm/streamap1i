@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Solution {
 
-    /*
+    /**
     * Проверьте, все ли задачи чтения имеют тег books.
     * Решить необходимо в 1 stream.
     */
@@ -22,7 +22,7 @@ public class Solution {
     }
 
     private static Boolean allReadingTasks(List<Task> tasks) {
-        return null;
-        // Ваш код здесь
+        boolean all = tasks.stream().allMatch(task -> task.getTags().contains("books"));
+        return all;
     }
 }

@@ -2,6 +2,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Solution {
 
@@ -19,10 +20,16 @@ public class Solution {
         List<Task> tasks = Arrays.asList(task1, task2, task3, task4, task5);
 
         allReadingTasks(tasks).forEach(System.out::println);
+
     }
 
     private static List<String> allReadingTasks(List<Task> tasks) {
-        return null;
-        // Ваш код здесь
+        List<String>readingTasks =  tasks.stream()
+                .filter(task->task.getType()==TaskType.READING)
+                .sorted((x,y)->
+                        x.getCreatedOn().compareTo(y.getCreatedOn()))
+                .map(task -> task.getTitle())   //.map(Task::toString) было так не мог понять почему выводит не формат, не посмотрел в методы...
+                .collect(Collectors.toList());
+        return readingTasks;
     }
 }
