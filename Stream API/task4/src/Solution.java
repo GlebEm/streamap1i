@@ -22,7 +22,7 @@ public class Solution {
     }
 
     private static Boolean allReadingTasks(List<Task> tasks) {
-        boolean all = tasks.stream().allMatch(task -> task.getTags().contains("books"));
-        return all;
+        return  tasks.stream().allMatch(task -> task.getTags().contains("books"));
+
     }
 }

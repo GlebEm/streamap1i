@@ -1,19 +1,22 @@
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static java.lang.String.valueOf;
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 
 public class Solution {
 
     /**
-    * Найдите все уникальные теги из всех задач
-    * Решить необходимо в 1 stream.
-    * Пример вывода: "java8", "git", "mobile", "blogging", "coding", "writing", "streams", "ddd"
-    */
+     * Найдите все уникальные теги из всех задач
+     * Решить необходимо в 1 stream.
+     * Пример вывода: "java8", "git", "mobile", "blogging", "coding", "writing", "streams", "ddd"
+     */
 
     public static void main(String[] args) {
         Task task1 = new Task(1, "Read Version Control with Git book", TaskType.READING, LocalDate.of(2015, Month.JULY, 1)).addTag("git").addTag("reading").addTag("books");
@@ -24,18 +27,27 @@ public class Solution {
         List<Task> tasks = Arrays.asList(task1, task2, task3, task4, task5);
 
         allReadingTasks(tasks).forEach(System.out::println);
+
     }
 
     private static List<String> allReadingTasks(List<Task> tasks) {
         return
-        tasks.stream()
-                .flatMap(task -> task.getTags()
-                        .stream()).distinct().collect(toList());
-//                .map(task -> valueOf(task.getTags()))
-//               // .filter(task->!task.equals(task))
-//                .sorted()
-               // .collect(Collectors.toList());
-
+                tasks.stream()
+                        .flatMap(task -> task.getTags().stream())
+                        .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))//(toMap(Function.identity(),Collectors.counting()))- ругался на типы объектов
+                        /**
+                         Загоняем в map'у где ключами будут теги, а значениями количество вхождений, причем не через toMap !
+                         а через метод Collectors.groupingBy (группирует элементы на основе некоторого свойства и возвращает элемент Map)
+                         в данном случае метод получает два параметра - Function.identity() - который всегда возвращает свои входные аргументы
+                         и Collectors.counting(), который считает элементы переданные в потоке.
+                         и уже теперь groupingBy создает карту этих элементов
+                         key - тег   ,  value - счетчик вхождения элементов
+                         */
+                        .entrySet().stream()
+                        //запускаем стрим на мапе, т.е. сейчас есть мапа где ключ-тег, значение - цифра счетчика
+                        .filter(c -> c.getValue() == 1) //фильтруем только те которые повторились один раз(значение вхождения ==1)
+                        .map(stringLongEntry -> stringLongEntry.getKey()) //залезаем в мапу и сопоставляем каждую запись с ключом
+                        .collect(toList()); //загоняем все в лист и возвращаем его
 
     }
 }
